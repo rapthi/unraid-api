@@ -1,0 +1,9 @@
+ Id    Name                   State
+----------------------------------------
+ 184   Pop OS                 running
+ -     Windows 10 Base        shut off
+ -     Windows 10 Chill       shut off
+ -     Windows 10 Dev         shut off
+ -     Windows 10 Gaming      shut off
+ -     Windows 10 Pougnette   shut off
+

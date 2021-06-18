@@ -1,0 +1,45 @@
+plugins {
+    id("groovy")
+    id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("io.micronaut.application") version "1.5.0"
+}
+
+version = "0.1"
+group = "ch.rapillard"
+
+repositories {
+    mavenCentral()
+}
+
+
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("ch.rapillard.*")
+    }
+}
+
+dependencies {
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut.groovy:micronaut-runtime-groovy")
+    implementation("io.swagger.core.v3:swagger-annotations")
+    implementation("javax.annotation:javax.annotation-api")
+    compileOnly("io.micronaut.openapi:micronaut-openapi")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    implementation("io.micronaut:micronaut-validation")
+}
+
+
+application {
+    mainClass.set("ch.rapillard.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("16")
+    targetCompatibility = JavaVersion.toVersion("16")
+}
+
+
+
