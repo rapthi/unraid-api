@@ -23,16 +23,27 @@ class VirshService {
      * @return A List of VirtualMachine
      */
     List<VirtualMachine>  getAll() {
-        String consoleOutput = ''
+        extractVirtualMachinesFromConsoleOutput(
+                GetSshOutput('virsh list --all')
+        )
+    }
+
+    /**
+     * Get the console output from the ssh command
+     * @param command A command that you would like to exec on ssh
+     * @return The console output as String
+     */
+    private String GetSshOutput(String command) {
+        String output = ''
         options.trustUnknownHosts = true
         remoteSession {
             host = sshConfig.host
             user = sshConfig.user
             password = sshConfig.password
 
-            consoleOutput = exec('virsh list --all').output
+            output = exec(command).output
         }
-        extractVirtualMachinesFromConsoleOutput(consoleOutput)
+        output
     }
 
     /**
