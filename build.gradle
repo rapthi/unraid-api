@@ -30,6 +30,7 @@ dependencies {
     compileOnly("io.micronaut.openapi:micronaut-openapi")
     runtimeOnly("ch.qos.logback:logback-classic")
     implementation("io.micronaut:micronaut-validation")
+    implementation 'com.aestasit.infrastructure.sshoogr:sshoogr:0.9.28'
 }
 
 
