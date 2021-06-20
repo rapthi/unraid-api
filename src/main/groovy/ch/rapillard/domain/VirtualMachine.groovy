@@ -4,7 +4,7 @@ import groovy.transform.Canonical
 
 @Canonical
 class VirtualMachine {
-    int Id
-    String Name
-    VirtualMachineState State
+    public int Id
+    public String Name
+    public VirtualMachineState State
 }
