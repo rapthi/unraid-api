@@ -1,5 +1,6 @@
 package ch.rapillard
 
+import ch.rapillard.controllers.StopVirtualMachineCommand
 import ch.rapillard.domain.VirtualMachine
 import ch.rapillard.services.VirshService
 import io.micronaut.core.type.Argument
@@ -35,5 +36,23 @@ public class VirtualMachinesControllerTest {
                 .retrieve(request, Argument.of(List.class, VirtualMachine.class))
 
         assert machines.size() == response.size()
+    }
+
+    @Test
+    void testStart() throws Exception {
+        def machines = vmService.getAll()
+        assert client.toBlocking()
+                .exchange(HttpRequest.POST("/virtualMachines/start", machines[0]), boolean)
+                .status() == HttpStatus.OK
+    }
+
+    @Test
+    void testStop() throws Exception {
+        def machines = vmService.getAll()
+        HttpRequest request = HttpRequest.POST("/virtualMachines/stop",
+                new StopVirtualMachineCommand(virtualMachine: machines[0], destroy: false))
+        assert client.toBlocking()
+                .exchange(request, boolean)
+                .status() == HttpStatus.OK
     }
 }

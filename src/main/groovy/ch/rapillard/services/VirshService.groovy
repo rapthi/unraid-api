@@ -6,6 +6,7 @@ import ch.rapillard.domain.VirtualMachineState
 import groovy.util.logging.Slf4j
 
 import javax.inject.Inject
+import java.lang.Exception
 
 import static com.aestasit.infrastructure.ssh.DefaultSsh.*
 import javax.inject.Singleton
@@ -24,8 +25,44 @@ class VirshService {
      */
     List<VirtualMachine>  getAll() {
         extractVirtualMachinesFromConsoleOutput(
-                GetSshOutput('virsh list --all')
-        )
+                GetSshOutput("virsh list --all" as String)
+        ) as List<VirtualMachine>
+    }
+
+    /**
+     * Start a Virtual Machine
+     * @param virtualMachine An instance of the Virtual Machine that you want to start
+     * @return True if the VM has been started
+     */
+    boolean start(VirtualMachine virtualMachine) {
+        try {
+             GetSshOutput("virsh start \"${virtualMachine.Name}\"")
+            true
+        } catch (Exception)
+        {
+            false
+        }
+    }
+
+    /**
+     * Stop a Virtual Machine
+     * @param virtualMachine An instance of the Virtual Machine that you want to stop
+     * @param destroy True if you want to stop bomb the virtual machine
+     * @return True if the VM has been stopped
+     */
+    boolean stop(VirtualMachine virtualMachine, boolean destroy) {
+        try {
+            if (destroy) {
+                GetSshOutput("virsh destroy \"${virtualMachine.Name}\"")
+            } else {
+                GetSshOutput("virsh shutdown \"${virtualMachine.Name}\"")
+            }
+            true
+        } catch (Exception)
+        {
+            false
+        }
+
     }
 
     /**
